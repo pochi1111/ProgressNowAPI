@@ -6,6 +6,9 @@ class UserController:
     def __init__(self):
         self.db_session = db_session
 
+    def close(self):
+        self.db_session.close()
+
     def get_user(self, user_id):
         user = self.db_session.query(Users).filter(Users.provider_id == user_id).first()
         return user

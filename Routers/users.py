@@ -11,6 +11,7 @@ router = APIRouter(
 async def get_user(user_id: str):
     user_controller = UserController()
     user = user_controller.get_user(user_id)
+    user_controller.close()
     if user is None:
         return JSONResponse(content={"message": "User not found"}, status_code=404)
     return {
