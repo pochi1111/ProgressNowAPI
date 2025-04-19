@@ -18,20 +18,12 @@ class UserController:
         updated_at = datetime.now()
         existing_user = self.db_session.query(Users).filter(Users.provider_id == provider_id).first()
         if existing_user:
-            raise Exception("409:User already exists")
+            existing_user.email = email
+            existing_user.name = name
+            existing_user.updated_at = updated_at
+            self.db_session.commit()
+            return existing_user
         new_user = Users(provider_id=provider_id, email=email, name=name, created_at=created_at, updated_at=updated_at)
         self.db_session.add(new_user)
         self.db_session.commit()
         return new_user
-
-    def update_user(self, provider_id, email=None, name=None):
-        user = self.db_session.query(Users).filter(Users.provider_id == provider_id).first()
-        if not user:
-            raise Exception("404:User not found")
-        if email:
-            user.email = email
-        if name:
-            user.name = name
-        user.updated_at = datetime.now()
-        self.db_session.commit()
-        return user
