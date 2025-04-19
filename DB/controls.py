@@ -23,3 +23,15 @@ class UserController:
         self.db_session.add(new_user)
         self.db_session.commit()
         return new_user
+
+    def update_user(self, provider_id, email=None, name=None):
+        user = self.db_session.query(Users).filter(Users.provider_id == provider_id).first()
+        if not user:
+            raise Exception("404:User not found")
+        if email:
+            user.email = email
+        if name:
+            user.name = name
+        user.updated_at = datetime.now()
+        self.db_session.commit()
+        return user
