@@ -10,7 +10,6 @@ password = os.getenv('DB_PASSWORD')
 host = os.getenv('HOST')
 db_name = os.getenv('DB_NAME')
 
-print(f"DB_USER: {user}, PASSWORD: {password}, HOST: {host}, DATABASE: {db_name}")
 
 engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}/{db_name}')
 

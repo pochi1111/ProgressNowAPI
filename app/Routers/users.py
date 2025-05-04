@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from starlette.responses import JSONResponse
-from DB.controls import UserController
+from app.DB.controls import UserController
 
 router = APIRouter(
     prefix="/users",

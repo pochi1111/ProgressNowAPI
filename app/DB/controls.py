@@ -1,5 +1,5 @@
-from DB.settings import db_session
-from DB.models.users import Users
+from app.DB.settings import db_session
+from app.DB.models.users import Users
 from datetime import datetime
 
 class UserController:
