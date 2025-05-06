@@ -9,21 +9,23 @@ class UserController:
     def close(self):
         self.db_session.close()
 
-    def get_user(self, user_id):
-        user = self.db_session.query(Users).filter(Users.provider_id == user_id).first()
+    #get userinfo by email
+    def get_user(self, email):
+        user = self.db_session.query(Users).filter(Users.email == email).first()
         return user
 
-    def create_user(self, provider_id, email, name):
+    def create_user(self, uid, email, name):
         created_at = datetime.now()
         updated_at = datetime.now()
-        existing_user = self.db_session.query(Users).filter(Users.provider_id == provider_id).first()
+        existing_user = self.db_session.query(Users).filter(Users.email == email).first()
         if existing_user:
+            existing_user.uid = uid
             existing_user.email = email
             existing_user.name = name
             existing_user.updated_at = updated_at
             self.db_session.commit()
             return existing_user
-        new_user = Users(provider_id=provider_id, email=email, name=name, created_at=created_at, updated_at=updated_at)
+        new_user = Users(email=email, uid=uid,  name=name, created_at=created_at, updated_at=updated_at)
         self.db_session.add(new_user)
         self.db_session.commit()
         return new_user

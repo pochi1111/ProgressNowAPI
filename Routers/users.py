@@ -1,22 +1,28 @@
 from fastapi import APIRouter
+from pydantic import BaseModel
 from starlette.responses import JSONResponse
 from DB.controls import UserController
+
+class User(BaseModel):
+    uid : str
+    email : str
+    name : str
 
 router = APIRouter(
     prefix="/users",
     tags=["users"],
 )
 
-@router.get("/{user_id}")
-async def get_user(user_id: str):
+@router.get("/{email}")
+async def get_user(email: str):
     user_controller = UserController()
-    user = user_controller.get_user(user_id)
+    user = user_controller.get_user(email)
     user_controller.close()
     if user is None:
         return JSONResponse(content={"message": "User not found"}, status_code=404)
     return {
         "id": user.id,
-        "provider_id": user.provider_id,
+        "uid": user.uid,
         "email": user.email,
         "name": user.name,
         "created_at": user.created_at,
@@ -24,10 +30,13 @@ async def get_user(user_id: str):
     }
 
 @router.post("/")
-async def create_user(provider_id: str, email: str, name: str):
+async def create_user(user: User):
     user_controller = UserController()
+    uid = user.uid
+    email = user.email
+    name = user.name
     try:
-        user = user_controller.create_user(provider_id, email, name)
+        user = user_controller.create_user(uid, email, name)
     except Exception as e:
         user_controller.close()
         if str(e)[:3].isdigit():
