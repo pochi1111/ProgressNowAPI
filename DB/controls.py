@@ -14,6 +14,11 @@ class UserController:
         user = self.db_session.query(Users).filter(Users.email == email).first()
         return user
 
+    #get userinfo by uid
+    def get_user_by_uid(self, uid):
+        user = self.db_session.query(Users).filter(Users.uid == uid).first()
+        return user
+
     def create_user(self, uid, email, name):
         created_at = datetime.now()
         updated_at = datetime.now()
@@ -29,3 +34,11 @@ class UserController:
         self.db_session.add(new_user)
         self.db_session.commit()
         return new_user
+
+    def delete_user(self, uid):
+        user = self.db_session.query(Users).filter(Users.uid == uid).first()
+        if user:
+            self.db_session.delete(user)
+            self.db_session.commit()
+            return True
+        return False
