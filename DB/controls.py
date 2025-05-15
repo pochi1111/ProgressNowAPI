@@ -1,10 +1,10 @@
-from DB.settings import db_session
+from DB.settings import get_db_session
 from DB.models.users import Users
 from datetime import datetime
 
 class UserController:
     def __init__(self):
-        self.db_session = db_session
+        self.db_session = get_db_session()
 
     def close(self):
         self.db_session.close()

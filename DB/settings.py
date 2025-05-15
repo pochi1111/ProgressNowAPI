@@ -13,6 +13,17 @@ db_name = os.getenv('DB_NAME')
 
 engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}/{db_name}')
 
+
+def get_db_session():
+  if not hasattr(db_session, 'is_active') or not db_session.is_active:
+    db_session.remove()
+    Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    db_session.configure(bind=engine)
+    print("Session recreated")
+  else:
+    print("Session already exists")
+  return db_session
+
 db_session = scoped_session(
   sessionmaker(
     autocommit=False,
