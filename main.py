@@ -1,10 +1,14 @@
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import JSONResponse
 import Routers.users as UsersRouter
+import Routers.projects as ProjectsRouter
+import Routers.tasks as TasksRouter
 
 app = FastAPI()
 
 app.include_router(UsersRouter.router)
+app.include_router(ProjectsRouter.router)
+app.include_router(TasksRouter.router)
 
 @app.get("/")
 async def root():

@@ -1,12 +1,11 @@
 from sqlalchemy import Column, Integer ,String, DateTime
 from DB.settings import Base,engine
 
-class Users(Base):
-    __tablename__ = "users"
+class Projects(Base):
+    __tablename__ = "projects"
     id = Column(Integer, primary_key=True ,autoincrement=True)
-    uid = Column(String(255), unique=True, nullable=False)
-    email = Column(String(255),nullable=False)
-    name = Column(String(255),nullable=False)
+    admin_id = Column(String(255),nullable=False)
+    project_name = Column(String(255), unique=True, nullable=False)
     created_at = Column(DateTime, default=DateTime,nullable=True)
     updated_at = Column(DateTime, default=DateTime,nullable=True)
 
